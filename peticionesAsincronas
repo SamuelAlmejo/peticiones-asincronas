@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+<h2>Uso del método Fetch con métodos asíncronos</h2>
+
+<div id="demo">
+<input type="text" id="pais" placeholder="Ingrese un país"required>
+<button type="button" onclick="cargarfetch()" >Cargar</button>
+<br><br><br>
+<input type="text" id="capital" placeholder="Capital">
+<input type="text" id="continente" placeholder="Continente">
+
+<br><br>
+<img width="400px" height="400px" id="imagen">
+<br>
+<button type="button" onclick="img()" >Buscar</button>
+</div>
+
+<script>
+let paises=""
+var imagen = document.getElementById("imagen")
+
+function cargarfetch() {
+var pais = document.getElementById("pais").value
+var pais = document.getElementById("pais").value
+var capital = document.getElementById("capital")
+var continente = document.getElementById("continente")
+
+
+if (pais === "") {
+  alert("Por favor, ingrese un país")
+} else {
+
+  fetch("https://restcountries.com/v3.1/name/" + pais).then((response) => {
+    if(!response.ok){
+      alert("Ingrese un pais válido")
+    }else{
+       return response.json()
+    }
+   
+
+  }).then((data) => {
+    console.log(data[0])
+    capital.value = data[0].capital
+    continente.value = data[0].continents
+    paises = data[0].altSpellings[0]
+  })
+
+}
+
+}
+function img() {
+
+ if (paises != "") {
+   var link = "https://flagcdn.com/256x192/"+paises.toLowerCase()+".png"
+   console.log(paises.toLowerCase())
+   fetch(link,).then( (response) => {
+   
+     return response.blob()
+  
+
+   }).then((datos) =>{
+
+      console.log(datos)
+      imagen.setAttribute("src", URL.createObjectURL(datos))
+      imagen.setAttribute("alt", paises)
+
+  })
+ }
+}
+</script>
+</body>
+</html>
